@@ -1,51 +1,79 @@
 import bcrypt
+
 class User:
 
     def __init__(self, nama, email, password=None, user_id=None):
-        self.id = user_id
-        self.nama = nama
-        self.email = email
-        self.password = password
+        # Protected
+        self._id = user_id
+        self._nama = nama
+        self._email = email
 
-    # Validasi email
-    def validate_email(self):
-        return "@" in self.email and "." in self.email
+        # Private
+        self.__password = password
 
-    # Validasi password
-    def validate_password(self):
-        return self.password is not None and len(self.password) >= 6
+    # PROPERTY (Getter)
+    @property
+    def id(self):
+        return self._id
 
-    # Validasi nama
+    @property
+    def nama(self):
+        return self._nama
+
+    @property
+    def email(self):
+        return self._email
+
+    # Setter Password
+
+    def set_password(self, password):
+        self.__password = password
+
+    # VALIDATION
+
     def validate_name(self):
-        return len(self.nama.strip()) >= 3
+        if not self._nama:
+            return False
+        return len(self._nama.strip()) >= 3
 
-    # Data untuk disimpan ke database
-    def to_dict(self):
-        return {
-            "nama": self.nama,
-            "email": self.email,
-            "password": self.password
-        }
+    def validate_email(self):
+        if not self._email:
+            return False
+        return "@" in self._email and "." in self._email
 
-    # Data profile
-    def profile(self):
-        return {
-            "id": self.id,
-            "nama": self.nama,
-            "email": self.email
-        }
+    def validate_password(self):
+        if not self.__password:
+            return False
+        return len(self.__password) >= 6
 
-    # Data untuk JWT
-    def token_payload(self):
-        return {
-            "id": self.id,
-            "nama": self.nama,
-            "email": self.email
-        }
-    
-    #check password
+    # PASSWORD
     def check_password(self, plain_password):
+        if not self.__password:
+            return False
+
         return bcrypt.checkpw(
             plain_password.encode(),
-            self.password.encode()
+            self.__password.encode()
         )
+    
+    # OUTPUT
+    def to_dict(self):
+        return {
+            "nama": self._nama,
+            "email": self._email,
+            "password": self.__password
+        }
+
+    def profile(self):
+        return {
+            "id": self._id,
+            "nama": self._nama,
+            "email": self._email
+        }
+
+    def token_payload(self):
+        return {
+            "id": self._id,
+            "nama": self._nama,
+            "email": self._email
+        }

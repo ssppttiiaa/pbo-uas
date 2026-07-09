@@ -4,16 +4,24 @@ from models.user_model import User
 
 
 def get_profile():
+
     try:
-        user = request.user
+
+        current_user = request.user
 
         result = (
             supabase.table("users")
-            .select("id, nama, email")
-            .eq("id", user["id"])
+            .select("id,nama,email")
+            .eq("id", current_user["id"])
             .single()
             .execute()
         )
+
+        if not result.data:
+            return {
+                "success": False,
+                "message": "User tidak ditemukan"
+            }
 
         db_user = result.data
 
@@ -29,105 +37,106 @@ def get_profile():
         }
 
     except Exception as e:
-        print("Get Profile Error:", e)
+
+        print(e)
 
         return {
             "success": False,
-            "message": "Gagal mengambil data profil"
+            "message": "Gagal mengambil profil"
         }
 
 
 def update_profile(data):
+
     try:
-        user = request.user
 
-        # Validasi data kosong
-        if not data:
-            return {
-                "success": False,
-                "message": "Data tidak boleh kosong"
-            }
+        current_user = request.user
 
-        # Validasi nama
-        if not data.get("nama"):
-            return {
-                "success": False,
-                "message": "Nama wajib diisi"
-            }
+        user = User(
+            nama=data.get("nama"),
+            email=data.get("email")
+        )
 
-        if len(data["nama"].strip()) < 3:
+        if not user.validate_name():
             return {
                 "success": False,
                 "message": "Nama minimal 3 karakter"
             }
 
-        # Validasi email
-        if not data.get("email"):
+        if not user.validate_email():
             return {
                 "success": False,
-                "message": "Email wajib diisi"
+                "message": "Email tidak valid"
             }
 
-        if "@" not in data["email"] or "." not in data["email"]:
-            return {
-                "success": False,
-                "message": "Format email tidak valid"
-            }
-
-        # Cek apakah email dipakai user lain
         cek = (
             supabase.table("users")
             .select("id")
-            .eq("email", data["email"])
+            .eq("email", user.email)
             .execute()
         )
 
         if cek.data:
+
             for item in cek.data:
-                if item["id"] != user["id"]:
+
+                if item["id"] != current_user["id"]:
                     return {
                         "success": False,
                         "message": "Email sudah digunakan"
                     }
 
-        # Update data
         supabase.table("users").update({
-            "nama": data["nama"],
-            "email": data["email"]
-        }).eq("id", user["id"]).execute()
+
+            "nama": user.nama,
+            "email": user.email
+
+        }).eq("id", current_user["id"]).execute()
 
         return {
+
             "success": True,
             "message": "Profil berhasil diperbarui"
+
         }
 
     except Exception as e:
-        print("Update Profile Error:", e)
+
+        print(e)
 
         return {
+
             "success": False,
             "message": "Gagal memperbarui profil"
+
         }
 
 
 def delete_profile():
-    try:
-        user = request.user
 
-        supabase.table("users") \
-            .delete() \
-            .eq("id", user["id"]) \
+    try:
+
+        current_user = request.user
+
+        supabase.table("users")\
+            .delete()\
+            .eq("id", current_user["id"])\
             .execute()
 
         return {
+
             "success": True,
             "message": "Akun berhasil dihapus"
+
         }
 
     except Exception as e:
-        print("Delete Profile Error:", e)
+
+        print(e)
 
         return {
+
             "success": False,
             "message": "Gagal menghapus akun"
+
         }
