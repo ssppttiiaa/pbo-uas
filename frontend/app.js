@@ -149,12 +149,16 @@ function initials(name) {
 /* =========================================================================
    AUTH: REGISTER / LOGIN / LOGOUT
    ========================================================================= */
+<<<<<<< HEAD
 const homepageScreen = document.getElementById("homepageScreen");
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
 const authScreen = document.getElementById("authScreen");
 const appShell = document.getElementById("appShell");
 const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
 
+<<<<<<< HEAD
 function showHomepage() {
   homepageScreen.classList.remove("d-none");
   authScreen.classList.add("d-none");
@@ -197,6 +201,8 @@ document.getElementById("authBackHome").addEventListener("click", (e) => {
   showHomepage();
 });
 
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
 document.getElementById("showRegister").addEventListener("click", (e) => {
   e.preventDefault();
   loginForm.classList.add("d-none");
@@ -252,17 +258,39 @@ registerForm.addEventListener("submit", async (e) => {
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
   clearSession();
+<<<<<<< HEAD
   showHomepage();
   showToast("Kamu telah keluar.");
 });
 
+=======
+  showAuthScreen();
+  showToast("Kamu telah keluar.");
+});
+
+function showAuthScreen() {
+  authScreen.classList.remove("d-none");
+  appShell.classList.add("d-none");
+}
+
+function showAppShell() {
+  authScreen.classList.add("d-none");
+  appShell.classList.remove("d-none");
+}
+
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
 /* =========================================================================
    NAVIGATION (SPA sections)
    ========================================================================= */
 const sectionMeta = {
   dashboard: { title: "Dashboard", eyebrow: "Ringkasan" },
   transaksi: { title: "Transaksi", eyebrow: "Kelola" },
+<<<<<<< HEAD
   anggaran: { title: "Anggaran", eyebrow: "Kelola" },
+=======
+  kategori: { title: "Kategori", eyebrow: "Kelola" },
+  target: { title: "Target Tabungan", eyebrow: "Kelola" },
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
   laporan: { title: "Laporan", eyebrow: "Analisis" },
   profil: { title: "Profil", eyebrow: "Akun" },
 };
@@ -281,7 +309,12 @@ function navigateTo(sectionKey) {
   // Muat data tiap kali section dibuka
   if (sectionKey === "dashboard") loadDashboard();
   if (sectionKey === "transaksi") loadTransaksi();
+<<<<<<< HEAD
   if (sectionKey === "anggaran") { loadKategori(); loadTarget(); }
+=======
+  if (sectionKey === "kategori") loadKategori();
+  if (sectionKey === "target") loadTarget();
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
   if (sectionKey === "laporan") loadLaporan();
   if (sectionKey === "profil") loadProfil();
 
@@ -295,6 +328,7 @@ document.querySelectorAll("[data-section]").forEach((el) => {
   });
 });
 
+<<<<<<< HEAD
 /* Sub-tabs inside Anggaran (Kategori / Target Tabungan) */
 document.querySelectorAll(".sub-tab-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -306,6 +340,8 @@ document.querySelectorAll(".sub-tab-btn").forEach((btn) => {
   });
 });
 
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
 /* Mobile sidebar toggle */
 const sidebarEl = document.querySelector(".sidebar");
 let backdropEl = document.querySelector(".sidebar-backdrop");
@@ -325,6 +361,7 @@ function closeMobileSidebar() {
 }
 
 /* =========================================================================
+<<<<<<< HEAD
    ISI SALDO MANUAL
    Karena backend tidak punya kolom saldo tersendiri (saldo = total pemasukan
    - total pengeluaran), mengisi saldo manual dilakukan dengan mencatatnya
@@ -381,6 +418,8 @@ saldoForm.addEventListener("submit", async (e) => {
 });
 
 /* =========================================================================
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
    DASHBOARD
    ========================================================================= */
 async function loadDashboard() {
@@ -576,7 +615,11 @@ window.confirmDeleteKategori = function (id) {
 async function loadTransaksi() {
   try {
     await ensureKategoriLoaded();
+<<<<<<< HEAD
     populateKategoriDropdown(getSelectedJenis());
+=======
+    populateKategoriDropdown();
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
     const res = await apiRequest("/transaksi");
     state.transaksiList = res.data || [];
     renderTransaksiTable();
@@ -585,6 +628,7 @@ async function loadTransaksi() {
   }
 }
 
+<<<<<<< HEAD
 function populateKategoriDropdown(tipe) {
   const select = document.getElementById("transaksiKategori");
   const hint = document.getElementById("transaksiKategoriEmptyHint");
@@ -614,6 +658,15 @@ document.querySelectorAll('input[name="transaksiJenis"]').forEach((radio) => {
   });
 });
 
+=======
+function populateKategoriDropdown() {
+  const select = document.getElementById("transaksiKategori");
+  select.innerHTML = state.kategoriList.map((k) =>
+    `<option value="${k.id}">${k.icon || ""} ${k.nama_kategori} (${k.tipe === "pemasukan" ? "Pemasukan" : "Pengeluaran"})</option>`
+  ).join("");
+}
+
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
 function renderTransaksiTable() {
   const tbody = document.getElementById("transaksiTableBody");
   const empty = document.getElementById("transaksiEmpty");
@@ -655,19 +708,25 @@ document.getElementById("btnAddTransaksi").addEventListener("click", () => {
   document.getElementById("transaksiId").value = "";
   document.getElementById("transaksiModalTitle").textContent = "Tambah Transaksi";
   document.getElementById("transaksiTanggal").valueAsDate = new Date();
+<<<<<<< HEAD
   document.getElementById("jenisPemasukan").checked = true;
   populateKategoriDropdown("pemasukan");
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
 });
 
 window.openEditTransaksi = function (id) {
   const trx = state.transaksiList.find((t) => t.id === id);
   if (!trx) return;
+<<<<<<< HEAD
   const kategori = getKategoriById(trx.kategori_id);
   const tipe = kategori?.tipe || "pemasukan";
 
   document.getElementById(tipe === "pemasukan" ? "jenisPemasukan" : "jenisPengeluaran").checked = true;
   populateKategoriDropdown(tipe);
 
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
   document.getElementById("transaksiId").value = trx.id;
   document.getElementById("transaksiKategori").value = trx.kategori_id;
   document.getElementById("transaksiJumlah").value = trx.jumlah;
@@ -679,6 +738,7 @@ window.openEditTransaksi = function (id) {
 
 transaksiForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+<<<<<<< HEAD
 
   const kategoriSelect = document.getElementById("transaksiKategori");
   if (kategoriSelect.disabled || !kategoriSelect.value) {
@@ -689,6 +749,11 @@ transaksiForm.addEventListener("submit", async (e) => {
   const id = document.getElementById("transaksiId").value;
   const payload = {
     kategori_id: Number(kategoriSelect.value),
+=======
+  const id = document.getElementById("transaksiId").value;
+  const payload = {
+    kategori_id: Number(document.getElementById("transaksiKategori").value),
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
     jumlah: Number(document.getElementById("transaksiJumlah").value),
     tanggal: document.getElementById("transaksiTanggal").value,
     catatan: document.getElementById("transaksiCatatan").value.trim(),
