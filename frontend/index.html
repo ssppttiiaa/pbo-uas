@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartBudget Rumah Tangga</title>
+
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Custom Styles -->
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- ======================= TOAST CONTAINER ======================= -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;" id="toastContainer"></div>
+
+<<<<<<< HEAD
+<!-- ======================= HOMEPAGE ======================= -->
+<div id="homepageScreen" class="homepage-screen">
+  <header class="home-nav">
+    <div class="auth-brand">
+      <span class="brand-mark"><i class="bi bi-wallet2"></i></span>
+      <span class="brand-text">
+        <span class="brand-name">SmartBudget</span>
+        <span class="brand-sub">Rumah Tangga</span>
+      </span>
+    </div>
+    <div class="home-nav-actions">
+      <button class="btn btn-outline-brand btn-sm" id="homeGoLogin">Masuk</button>
+      <button class="btn btn-brand btn-sm" id="homeGoRegister">Daftar</button>
+    </div>
+  </header>
+
+  <section class="home-hero">
+    <div class="home-hero-text home-hero-text--wide">
+      <span class="home-badge">Keuangan Rumah Tangga, Lebih Terarah</span>
+      <h1>Kelola Pemasukan, Pengeluaran, dan Tabungan Keluargamu di Satu Aplikasi</h1>
+      <p>SmartBudget membantu kamu mencatat transaksi harian, mengatur anggaran per kategori, memantau target tabungan, dan melihat laporan bulanan secara jelas dan rapi.</p>
+      <div class="home-hero-actions">
+        <button class="btn btn-brand btn-lg" id="heroGoRegister">Mulai Sekarang <i class="bi bi-arrow-right"></i></button>
+        <button class="btn btn-outline-brand btn-lg" id="heroGoLogin">Saya Sudah Punya Akun</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-features">
+    <div class="feature-card">
+      <div class="summary-icon summary-icon--in"><i class="bi bi-arrow-left-right"></i></div>
+      <h5>Catat Transaksi</h5>
+      <p>Pemasukan dan pengeluaran harian tercatat rapi berdasarkan kategori.</p>
+    </div>
+    <div class="feature-card">
+      <div class="summary-icon summary-icon--out"><i class="bi bi-tags-fill"></i></div>
+      <h5>Atur Anggaran</h5>
+      <p>Kelola kategori dan target tabungan keluarga dalam satu tempat.</p>
+    </div>
+    <div class="feature-card">
+      <div class="summary-icon summary-icon--misc"><i class="bi bi-bar-chart-fill"></i></div>
+      <h5>Laporan Bulanan</h5>
+      <p>Pantau arus kas rumah tangga per bulan dengan ringkas dan jelas.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ======================= AUTH SCREEN ======================= -->
+<div id="authScreen" class="auth-screen d-none">
+  <div class="auth-card">
+    <a href="#" class="auth-back" id="authBackHome"><i class="bi bi-arrow-left"></i> Kembali ke beranda</a>
+=======
+<!-- ======================= AUTH SCREEN ======================= -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
+    <div class="auth-brand">
+      <span class="brand-mark"><i class="bi bi-wallet2"></i></span>
+      <span class="brand-text">
+        <span class="brand-name">SmartBudget</span>
+        <span class="brand-sub">Rumah Tangga</span>
+      </span>
+    </div>
+    <p class="auth-tagline">Catat pemasukan, pengeluaran, dan target tabungan keluargamu di satu tempat.</p>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="auth-form">
+      <h2 class="auth-title">Masuk ke akunmu</h2>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" id="loginEmail" placeholder="nama@email.com" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-brand w-100">Masuk</button>
+      <p class="auth-switch">Belum punya akun? <a href="#" id="showRegister">Daftar sekarang</a></p>
+    </form>
+
+    <!-- Register Form -->
+    <form id="registerForm" class="auth-form d-none">
+      <h2 class="auth-title">Buat akun baru</h2>
+      <div class="mb-3">
+        <label class="form-label">Nama Lengkap</label>
+        <input type="text" class="form-control" id="registerNama" placeholder="Nama kamu" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" id="registerEmail" placeholder="nama@email.com" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" id="registerPassword" placeholder="Minimal 6 karakter" required>
+      </div>
+      <button type="submit" class="btn btn-brand w-100">Daftar</button>
+      <p class="auth-switch">Sudah punya akun? <a href="#" id="showLogin">Masuk di sini</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- ======================= APP SHELL ======================= -->
+<div id="appShell" class="app-shell d-none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark"><i class="bi bi-wallet2"></i></span>
+      <span class="brand-text">
+        <span class="brand-name">SmartBudget</span>
+        <span class="brand-sub">Rumah Tangga</span>
+      </span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-link-item active" data-section="dashboard">
+        <i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-link-item" data-section="transaksi">
+        <i class="bi bi-arrow-left-right"></i><span>Transaksi</span>
+      </a>
+<<<<<<< HEAD
+      <a href="#" class="nav-link-item" data-section="anggaran">
+        <i class="bi bi-tags-fill"></i><span>Anggaran</span>
+=======
+      <a href="#" class="nav-link-item" data-section="kategori">
+        <i class="bi bi-tags-fill"></i><span>Kategori</span>
+      </a>
+      <a href="#" class="nav-link-item" data-section="target">
+        <i class="bi bi-piggy-bank-fill"></i><span>Target Tabungan</span>
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
+      </a>
+      <a href="#" class="nav-link-item" data-section="laporan">
+        <i class="bi bi-bar-chart-fill"></i><span>Laporan</span>
+      </a>
+      <a href="#" class="nav-link-item" data-section="profil">
+        <i class="bi bi-person-circle"></i><span>Profil</span>
+      </a>
+    </nav>
+
+    <button class="btn-logout" id="logoutBtn">
+      <i class="bi bi-box-arrow-left"></i><span>Keluar</span>
+    </button>
+  </aside>
+
+  <!-- Mobile topbar -->
+  <div class="mobile-topbar d-lg-none">
+    <button class="btn-icon" id="mobileMenuBtn"><i class="bi bi-list"></i></button>
+    <span class="brand-name">SmartBudget</span>
+    <span></span>
+  </div>
+
+  <!-- Main content -->
+  <main class="main-content">
+
+    <header class="content-header">
+      <div>
+        <p class="eyebrow" id="sectionEyebrow">Ringkasan</p>
+        <h1 id="sectionTitle">Dashboard</h1>
+      </div>
+      <div class="header-user">
+        <div class="user-chip">
+          <span class="user-avatar" id="userAvatar">?</span>
+          <span class="user-name" id="userNameLabel">Pengguna</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ DASHBOARD SECTION ============ -->
+    <section class="content-section" id="section-dashboard">
+      <div class="summary-grid">
+        <div class="summary-card summary-card--hero">
+          <p class="summary-label">Saldo Saat Ini</p>
+          <h2 class="summary-value" id="dbSaldo">Rp 0</h2>
+<<<<<<< HEAD
+          <button class="btn btn-hero-action" data-bs-toggle="modal" data-bs-target="#saldoModal" id="btnIsiSaldo">
+            <i class="bi bi-plus-circle"></i> Isi Saldo
+          </button>
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
+          <div class="summary-hero-icon"><i class="bi bi-wallet2"></i></div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon summary-icon--in"><i class="bi bi-arrow-down-left"></i></div>
+          <p class="summary-label">Total Pemasukan</p>
+          <h3 class="summary-value-sm" id="dbPemasukan">Rp 0</h3>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon summary-icon--out"><i class="bi bi-arrow-up-right"></i></div>
+          <p class="summary-label">Total Pengeluaran</p>
+          <h3 class="summary-value-sm" id="dbPengeluaran">Rp 0</h3>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon summary-icon--misc"><i class="bi bi-piggy-bank"></i></div>
+          <p class="summary-label">Target Tabungan</p>
+          <h3 class="summary-value-sm" id="dbTargetCount">0 target</h3>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-1">
+        <div class="col-lg-5">
+          <div class="panel">
+            <h5 class="panel-title">Pemasukan vs Pengeluaran</h5>
+            <div class="chart-wrap">
+              <canvas id="dashboardChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="panel">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="panel-title mb-0">Transaksi Terbaru</h5>
+              <a href="#" class="link-more" data-section="transaksi">Lihat semua <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div class="table-responsive mt-2">
+              <table class="table table-app">
+                <thead><tr><th>Tanggal</th><th>Kategori</th><th>Catatan</th><th class="text-end">Jumlah</th></tr></thead>
+                <tbody id="dbRecentTransaksi"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TRANSAKSI SECTION ============ -->
+    <section class="content-section d-none" id="section-transaksi">
+      <div class="panel">
+        <div class="panel-toolbar">
+          <h5 class="panel-title mb-0">Semua Transaksi</h5>
+          <button class="btn btn-brand btn-sm" data-bs-toggle="modal" data-bs-target="#transaksiModal" id="btnAddTransaksi">
+            <i class="bi bi-plus-lg"></i> Tambah Transaksi
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-app align-middle">
+            <thead>
+              <tr><th>Tanggal</th><th>Kategori</th><th>Catatan</th><th class="text-end">Jumlah</th><th class="text-end">Aksi</th></tr>
+            </thead>
+            <tbody id="transaksiTableBody"></tbody>
+          </table>
+        </div>
+        <div class="empty-state d-none" id="transaksiEmpty">
+          <i class="bi bi-receipt"></i>
+          <p>Belum ada transaksi. Yuk catat transaksi pertamamu.</p>
+        </div>
+      </div>
+    </section>
+
+<<<<<<< HEAD
+    <!-- ============ ANGGARAN SECTION (Kategori + Target Tabungan) ============ -->
+    <section class="content-section d-none" id="section-anggaran">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" data-subtab="kategori">Kategori</button>
+        <button class="sub-tab-btn" data-subtab="target">Target Tabungan</button>
+      </div>
+
+      <div class="subtab-panel" id="subtab-kategori">
+        <div class="panel">
+          <div class="panel-toolbar">
+            <h5 class="panel-title mb-0">Kategori Pemasukan &amp; Pengeluaran</h5>
+            <button class="btn btn-brand btn-sm" data-bs-toggle="modal" data-bs-target="#kategoriModal" id="btnAddKategori">
+              <i class="bi bi-plus-lg"></i> Tambah Kategori
+            </button>
+          </div>
+          <div class="category-grid" id="kategoriGrid"></div>
+          <div class="empty-state d-none" id="kategoriEmpty">
+            <i class="bi bi-tags"></i>
+            <p>Belum ada kategori. Tambahkan kategori pemasukan/pengeluaran dulu.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="subtab-panel d-none" id="subtab-target">
+        <div class="panel">
+          <div class="panel-toolbar">
+            <h5 class="panel-title mb-0">Target Tabungan</h5>
+            <button class="btn btn-brand btn-sm" data-bs-toggle="modal" data-bs-target="#targetModal" id="btnAddTarget">
+              <i class="bi bi-plus-lg"></i> Tambah Target
+            </button>
+          </div>
+          <div class="target-grid" id="targetGrid"></div>
+          <div class="empty-state d-none" id="targetEmpty">
+            <i class="bi bi-piggy-bank"></i>
+            <p>Belum ada target tabungan. Mulai buat tujuan menabungmu.</p>
+          </div>
+=======
+    <!-- ============ KATEGORI SECTION ============ -->
+    <section class="content-section d-none" id="section-kategori">
+      <div class="panel">
+        <div class="panel-toolbar">
+          <h5 class="panel-title mb-0">Kategori Pemasukan &amp; Pengeluaran</h5>
+          <button class="btn btn-brand btn-sm" data-bs-toggle="modal" data-bs-target="#kategoriModal" id="btnAddKategori">
+            <i class="bi bi-plus-lg"></i> Tambah Kategori
+          </button>
+        </div>
+        <div class="category-grid" id="kategoriGrid"></div>
+        <div class="empty-state d-none" id="kategoriEmpty">
+          <i class="bi bi-tags"></i>
+          <p>Belum ada kategori. Tambahkan kategori pemasukan/pengeluaran dulu.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TARGET TABUNGAN SECTION ============ -->
+    <section class="content-section d-none" id="section-target">
+      <div class="panel">
+        <div class="panel-toolbar">
+          <h5 class="panel-title mb-0">Target Tabungan</h5>
+          <button class="btn btn-brand btn-sm" data-bs-toggle="modal" data-bs-target="#targetModal" id="btnAddTarget">
+            <i class="bi bi-plus-lg"></i> Tambah Target
+          </button>
+        </div>
+        <div class="target-grid" id="targetGrid"></div>
+        <div class="empty-state d-none" id="targetEmpty">
+          <i class="bi bi-piggy-bank"></i>
+          <p>Belum ada target tabungan. Mulai buat tujuan menabungmu.</p>
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LAPORAN SECTION ============ -->
+    <section class="content-section d-none" id="section-laporan">
+      <div class="panel">
+        <div class="panel-toolbar flex-wrap gap-2">
+          <h5 class="panel-title mb-0">Laporan Bulanan</h5>
+          <form class="d-flex gap-2 align-items-center" id="laporanFilterForm">
+            <select class="form-select form-select-sm" id="laporanBulan"></select>
+            <input type="number" class="form-control form-control-sm" id="laporanTahun" style="width:100px" min="2000" max="2100">
+            <button type="submit" class="btn btn-outline-brand btn-sm">Tampilkan</button>
+          </form>
+        </div>
+
+        <div class="summary-grid summary-grid--report">
+          <div class="summary-card">
+            <p class="summary-label">Pemasukan</p>
+            <h3 class="summary-value-sm" id="reportPemasukan">Rp 0</h3>
+          </div>
+          <div class="summary-card">
+            <p class="summary-label">Pengeluaran</p>
+            <h3 class="summary-value-sm" id="reportPengeluaran">Rp 0</h3>
+          </div>
+          <div class="summary-card">
+            <p class="summary-label">Saldo Bulan Ini</p>
+            <h3 class="summary-value-sm" id="reportSaldo">Rp 0</h3>
+          </div>
+        </div>
+
+        <div class="table-responsive mt-2">
+          <table class="table table-app">
+            <thead><tr><th>Tanggal</th><th>Kategori</th><th>Catatan</th><th class="text-end">Jumlah</th></tr></thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+        <div class="empty-state d-none" id="reportEmpty">
+          <i class="bi bi-calendar-x"></i>
+          <p>Tidak ada transaksi pada bulan &amp; tahun tersebut.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROFIL SECTION ============ -->
+    <section class="content-section d-none" id="section-profil">
+      <div class="panel panel--narrow">
+        <h5 class="panel-title">Informasi Akun</h5>
+        <form id="profileForm">
+          <div class="mb-3">
+            <label class="form-label">Nama Lengkap</label>
+            <input type="text" class="form-control" id="profileNama" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" id="profileEmail" required>
+          </div>
+          <button type="submit" class="btn btn-brand">Simpan Perubahan</button>
+        </form>
+        <hr class="my-4">
+        <h5 class="panel-title text-danger">Zona Berbahaya</h5>
+        <p class="text-muted small">Menghapus akun akan menghilangkan semua data secara permanen.</p>
+        <button class="btn btn-outline-danger btn-sm" id="btnDeleteAccount">
+          <i class="bi bi-trash3"></i> Hapus Akun
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ======================= MODAL: TRANSAKSI ======================= -->
+<div class="modal fade" id="transaksiModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="transaksiForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="transaksiModalTitle">Tambah Transaksi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="transaksiId">
+          <div class="mb-3">
+<<<<<<< HEAD
+            <label class="form-label d-block">Jenis Transaksi</label>
+            <div class="btn-group w-100" role="group">
+              <input type="radio" class="btn-check" name="transaksiJenis" id="jenisPemasukan" value="pemasukan" autocomplete="off">
+              <label class="btn btn-outline-brand" for="jenisPemasukan"><i class="bi bi-arrow-down-left"></i> Pemasukan</label>
+
+              <input type="radio" class="btn-check" name="transaksiJenis" id="jenisPengeluaran" value="pengeluaran" autocomplete="off">
+              <label class="btn btn-outline-brand" for="jenisPengeluaran"><i class="bi bi-arrow-up-right"></i> Pengeluaran</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kategori</label>
+            <select class="form-select" id="transaksiKategori" required></select>
+            <div class="form-text text-danger d-none" id="transaksiKategoriEmptyHint">
+              Belum ada kategori untuk jenis ini. Tambahkan dulu lewat menu Kategori.
+            </div>
+=======
+            <label class="form-label">Kategori</label>
+            <select class="form-select" id="transaksiKategori" required></select>
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Jumlah (Rp)</label>
+            <input type="number" min="1" class="form-control" id="transaksiJumlah" placeholder="0" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="transaksiTanggal" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Catatan <span class="text-muted">(opsional)</span></label>
+            <textarea class="form-control" id="transaksiCatatan" rows="2" placeholder="Contoh: makan siang bareng tim"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-brand">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= MODAL: KATEGORI ======================= -->
+<div class="modal fade" id="kategoriModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="kategoriForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="kategoriModalTitle">Tambah Kategori</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="kategoriId">
+          <div class="mb-3">
+            <label class="form-label">Nama Kategori</label>
+            <input type="text" class="form-control" id="kategoriNama" placeholder="Contoh: Gaji, Makan, Transport" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tipe</label>
+            <select class="form-select" id="kategoriTipe" required>
+              <option value="pemasukan">Pemasukan</option>
+              <option value="pengeluaran">Pengeluaran</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Icon <span class="text-muted">(emoji, opsional)</span></label>
+            <input type="text" class="form-control" id="kategoriIcon" placeholder="🍔" maxlength="4">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-brand">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= MODAL: TARGET TABUNGAN ======================= -->
+<div class="modal fade" id="targetModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="targetForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="targetModalTitle">Tambah Target Tabungan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="targetId">
+          <div class="mb-3">
+            <label class="form-label">Nama Target</label>
+            <input type="text" class="form-control" id="targetNama" placeholder="Contoh: Dana Darurat, Liburan" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nominal Target (Rp)</label>
+            <input type="number" min="1" class="form-control" id="targetNominal" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nominal Terkumpul (Rp)</label>
+            <input type="number" min="0" class="form-control" id="targetTerkumpul" value="0">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Deadline</label>
+            <input type="date" class="form-control" id="targetDeadline" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-brand">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<<<<<<< HEAD
+<!-- ======================= MODAL: ISI SALDO MANUAL ======================= -->
+<div class="modal fade" id="saldoModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="saldoForm">
+        <div class="modal-header">
+          <h5 class="modal-title">Isi Saldo Manual</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Nominal (Rp)</label>
+            <input type="number" min="1" class="form-control" id="saldoJumlah" placeholder="0" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="saldoTanggal" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Catatan <span class="text-muted">(opsional)</span></label>
+            <input type="text" class="form-control" id="saldoCatatan" placeholder="Contoh: Saldo awal rekening">
+          </div>
+          <p class="form-text mb-0">
+            Nominal ini akan otomatis dicatat sebagai transaksi <strong>Pemasukan</strong> pada kategori
+            <strong>"Saldo Manual"</strong> sehingga saldo dan riwayat transaksimu tetap konsisten.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-brand">Tambahkan ke Saldo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+=======
+>>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
+<!-- ======================= MODAL: KONFIRMASI HAPUS ======================= -->
+<div class="modal fade" id="confirmModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body text-center py-4">
+        <div class="confirm-icon"><i class="bi bi-exclamation-triangle"></i></div>
+        <h5 class="mt-3" id="confirmTitle">Yakin ingin menghapus?</h5>
+        <p class="text-muted" id="confirmMessage">Tindakan ini tidak dapat dibatalkan.</p>
+        <div class="d-flex justify-content-center gap-2 mt-3">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-danger" id="confirmActionBtn">Ya, Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- App Logic -->
+<script src="app.js"></script>
+</body>
+</html>
