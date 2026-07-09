@@ -20,7 +20,6 @@
 <!-- ======================= TOAST CONTAINER ======================= -->
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;" id="toastContainer"></div>
 
-<<<<<<< HEAD
 <!-- ======================= HOMEPAGE ======================= -->
 <div id="homepageScreen" class="homepage-screen">
   <header class="home-nav">
@@ -72,11 +71,6 @@
 <div id="authScreen" class="auth-screen d-none">
   <div class="auth-card">
     <a href="#" class="auth-back" id="authBackHome"><i class="bi bi-arrow-left"></i> Kembali ke beranda</a>
-=======
-<!-- ======================= AUTH SCREEN ======================= -->
-<div id="authScreen" class="auth-screen">
-  <div class="auth-card">
->>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
     <div class="auth-brand">
       <span class="brand-mark"><i class="bi bi-wallet2"></i></span>
       <span class="brand-text">
@@ -142,16 +136,8 @@
       <a href="#" class="nav-link-item" data-section="transaksi">
         <i class="bi bi-arrow-left-right"></i><span>Transaksi</span>
       </a>
-<<<<<<< HEAD
       <a href="#" class="nav-link-item" data-section="anggaran">
         <i class="bi bi-tags-fill"></i><span>Anggaran</span>
-=======
-      <a href="#" class="nav-link-item" data-section="kategori">
-        <i class="bi bi-tags-fill"></i><span>Kategori</span>
-      </a>
-      <a href="#" class="nav-link-item" data-section="target">
-        <i class="bi bi-piggy-bank-fill"></i><span>Target Tabungan</span>
->>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
       </a>
       <a href="#" class="nav-link-item" data-section="laporan">
         <i class="bi bi-bar-chart-fill"></i><span>Laporan</span>
@@ -195,12 +181,9 @@
         <div class="summary-card summary-card--hero">
           <p class="summary-label">Saldo Saat Ini</p>
           <h2 class="summary-value" id="dbSaldo">Rp 0</h2>
-<<<<<<< HEAD
           <button class="btn btn-hero-action" data-bs-toggle="modal" data-bs-target="#saldoModal" id="btnIsiSaldo">
             <i class="bi bi-plus-circle"></i> Isi Saldo
           </button>
-=======
->>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
           <div class="summary-hero-icon"><i class="bi bi-wallet2"></i></div>
         </div>
         <div class="summary-card">
@@ -270,7 +253,6 @@
       </div>
     </section>
 
-<<<<<<< HEAD
     <!-- ============ ANGGARAN SECTION (Kategori + Target Tabungan) ============ -->
     <section class="content-section d-none" id="section-anggaran">
       <div class="sub-tabs">
@@ -307,38 +289,6 @@
             <i class="bi bi-piggy-bank"></i>
             <p>Belum ada target tabungan. Mulai buat tujuan menabungmu.</p>
           </div>
-=======
-    <!-- ============ KATEGORI SECTION ============ -->
-    <section class="content-section d-none" id="section-kategori">
-      <div class="panel">
-        <div class="panel-toolbar">
-          <h5 class="panel-title mb-0">Kategori Pemasukan &amp; Pengeluaran</h5>
-          <button class="btn btn-brand btn-sm" data-bs-toggle="modal" data-bs-target="#kategoriModal" id="btnAddKategori">
-            <i class="bi bi-plus-lg"></i> Tambah Kategori
-          </button>
-        </div>
-        <div class="category-grid" id="kategoriGrid"></div>
-        <div class="empty-state d-none" id="kategoriEmpty">
-          <i class="bi bi-tags"></i>
-          <p>Belum ada kategori. Tambahkan kategori pemasukan/pengeluaran dulu.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ TARGET TABUNGAN SECTION ============ -->
-    <section class="content-section d-none" id="section-target">
-      <div class="panel">
-        <div class="panel-toolbar">
-          <h5 class="panel-title mb-0">Target Tabungan</h5>
-          <button class="btn btn-brand btn-sm" data-bs-toggle="modal" data-bs-target="#targetModal" id="btnAddTarget">
-            <i class="bi bi-plus-lg"></i> Tambah Target
-          </button>
-        </div>
-        <div class="target-grid" id="targetGrid"></div>
-        <div class="empty-state d-none" id="targetEmpty">
-          <i class="bi bi-piggy-bank"></i>
-          <p>Belum ada target tabungan. Mulai buat tujuan menabungmu.</p>
->>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
         </div>
       </div>
     </section>
@@ -422,7 +372,6 @@
         <div class="modal-body">
           <input type="hidden" id="transaksiId">
           <div class="mb-3">
-<<<<<<< HEAD
             <label class="form-label d-block">Jenis Transaksi</label>
             <div class="btn-group w-100" role="group">
               <input type="radio" class="btn-check" name="transaksiJenis" id="jenisPemasukan" value="pemasukan" autocomplete="off">
@@ -438,10 +387,6 @@
             <div class="form-text text-danger d-none" id="transaksiKategoriEmptyHint">
               Belum ada kategori untuk jenis ini. Tambahkan dulu lewat menu Kategori.
             </div>
-=======
-            <label class="form-label">Kategori</label>
-            <select class="form-select" id="transaksiKategori" required></select>
->>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
           </div>
           <div class="mb-3">
             <label class="form-label">Jumlah (Rp)</label>
@@ -538,7 +483,6 @@
   </div>
 </div>
 
-<<<<<<< HEAD
 <!-- ======================= MODAL: ISI SALDO MANUAL ======================= -->
 <div class="modal fade" id="saldoModal" tabindex="-1">
   <div class="modal-dialog">
@@ -575,8 +519,6 @@
   </div>
 </div>
 
-=======
->>>>>>> 7c1b3c262bbfd7e131c01cf4378e316c75d11530
 <!-- ======================= MODAL: KONFIRMASI HAPUS ======================= -->
 <div class="modal fade" id="confirmModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
