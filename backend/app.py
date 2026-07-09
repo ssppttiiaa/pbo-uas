@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from config.db import supabase
 from routes.auth_routes import auth_bp
 from routes.user_routes import user_bp
@@ -10,6 +11,7 @@ from routes.report_routes import report_bp
 
 
 app = Flask(__name__)
+CORS(app)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(user_bp)
