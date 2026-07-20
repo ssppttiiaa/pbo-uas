@@ -48,6 +48,7 @@ def register_user(data):
             }
 
         # Cek email sudah terdaftar
+        print("Email dari frontend:", data["email"])
         cek = (
             supabase.table("users")
             .select("*")
@@ -62,10 +63,19 @@ def register_user(data):
             }
 
                 ## Hash password
+        # Hash password
         hashed_password = bcrypt.hashpw(
             data["password"].encode(),
             bcrypt.gensalt()
         ).decode()
+
+        # Gunakan setter
+        user.set_password(hashed_password)
+
+        # Simpan ke database
+        supabase.table("users").insert(
+            user.to_dict()
+        ).execute()
 
         # Update password pada object
         user.password = hashed_password

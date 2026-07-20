@@ -48,13 +48,25 @@ class User:
 
     # PASSWORD
     def check_password(self, plain_password):
+
         if not self.__password:
             return False
 
-        return bcrypt.checkpw(
-            plain_password.encode(),
-            self.__password.encode()
-        )
+        # Pastikan password di database adalah hash bcrypt
+        if not (
+            self.__password.startswith("$2a$")
+            or self.__password.startswith("$2b$")
+            or self.__password.startswith("$2y$")
+        ):
+            return False
+
+        try:
+            return bcrypt.checkpw(
+                plain_password.encode(),
+                self.__password.encode()
+            )
+        except ValueError:
+            return False
     
     # OUTPUT
     def to_dict(self):
