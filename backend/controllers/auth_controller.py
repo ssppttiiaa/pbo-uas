@@ -62,7 +62,6 @@ def register_user(data):
                 "message": "Email sudah terdaftar"
             }
 
-                ## Hash password
         # Hash password
         hashed_password = bcrypt.hashpw(
             data["password"].encode(),
@@ -71,14 +70,6 @@ def register_user(data):
 
         # Gunakan setter
         user.set_password(hashed_password)
-
-        # Simpan ke database
-        supabase.table("users").insert(
-            user.to_dict()
-        ).execute()
-
-        # Update password pada object
-        user.password = hashed_password
 
         # Simpan ke database
         supabase.table("users").insert(
