@@ -6,14 +6,12 @@ from models.user_model import User
 
 def register_user(data):
     try:
-        # Cek data kosong
         if not data:
             return {
                 "success": False,
                 "message": "Data tidak boleh kosong"
             }
 
-        # Validasi field wajib
         required = ["nama", "email", "password"]
 
         for field in required:
@@ -24,9 +22,9 @@ def register_user(data):
                 }
 
         user = User(
-        nama=data["nama"],
-        email=data["email"],
-        password=data["password"]
+            nama=data["nama"],
+            email=data["email"].strip().lower(),
+            password=data["password"]
         )
 
         if not user.validate_name():
@@ -47,12 +45,10 @@ def register_user(data):
                 "message": "Password minimal 6 karakter"
             }
 
-        # Cek email sudah terdaftar
-        print("Email dari frontend:", data["email"])
         cek = (
             supabase.table("users")
-            .select("*")
-            .eq("email", data["email"])
+            .select("id")
+            .eq("email", user.email)
             .execute()
         )
 
@@ -62,25 +58,13 @@ def register_user(data):
                 "message": "Email sudah terdaftar"
             }
 
-                ## Hash password
-        # Hash password
         hashed_password = bcrypt.hashpw(
             data["password"].encode(),
             bcrypt.gensalt()
         ).decode()
 
-        # Gunakan setter
         user.set_password(hashed_password)
 
-        # Simpan ke database
-        supabase.table("users").insert(
-            user.to_dict()
-        ).execute()
-
-        # Update password pada object
-        user.password = hashed_password
-
-        # Simpan ke database
         supabase.table("users").insert(
             user.to_dict()
         ).execute()
@@ -92,13 +76,12 @@ def register_user(data):
         }
 
     except Exception as e:
-        print("Register Error :", e)
+        print("Register Error:", e)
 
         return {
             "success": False,
             "message": "Terjadi kesalahan pada server"
         }
-
 
 def login_user(data):
     try:
