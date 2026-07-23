@@ -139,7 +139,7 @@ function applyTheme(dark) {
 function updateChartsForTheme() {
   const tc = isDark ? "#94a3b8" : "#475569";
   const gc = isDark ? "rgba(45,49,72,0.8)" : "rgba(226,232,240,0.6)";
-  [state.dashboardChart, state.laporanChart].forEach((c) => {
+  [state.dashboardChart, state.laporanChart, state.dbMonthChart].forEach((c) => {
     if (!c) return;
     if (c.options.plugins?.legend?.labels) c.options.plugins.legend.labels.color = tc;
     if (c.options.scales?.x?.ticks) c.options.scales.x.ticks.color = tc;
@@ -168,6 +168,7 @@ const state = {
   laporanCache: [],
   dashboardChart: null,
   laporanChart: null,
+  dbMonthChart: null,
 };
 function saveSession(token, user) {
   state.token = token; state.user = user;
@@ -306,6 +307,7 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   clearSession();
   if (state.dashboardChart) { state.dashboardChart.destroy(); state.dashboardChart=null; }
   if (state.laporanChart)   { state.laporanChart.destroy();   state.laporanChart=null; }
+  if (state.dbMonthChart)   { state.dbMonthChart.destroy();   state.dbMonthChart=null; }
   state.kategoriList=[];
   showHomepage();
   showToast("Kamu telah keluar.", "info");
@@ -470,7 +472,7 @@ async function ensureSaldoKategori() {
   if (!kat || !kat.id) throw new Error("Gagal menyiapkan kategori Saldo Manual. Coba restart backend.");
   return kat;
 }
-document.getElementById("btnIsiSaldo").addEventListener("click", () => {
+document.getElementById("btnIsiSaldo")?.addEventListener("click", () => {
   document.getElementById("saldoForm").reset();
   document.getElementById("saldoTanggal").valueAsDate = new Date();
   openModal("saldoModal");
@@ -504,6 +506,8 @@ async function loadDashboard() {
   try {
     const [dashRes] = await Promise.all([apiRequest("/dashboard"), ensureKategoriLoaded()]);
     const d = dashRes.data;
+
+    // ── Ringkasan keseluruhan ──
     animateValue("dbSaldo",       d.saldo,             formatRupiah);
     animateValue("dbPemasukan",   d.total_pemasukan,   formatRupiah);
     animateValue("dbPengeluaran", d.total_pengeluaran, formatRupiah);
@@ -529,7 +533,81 @@ async function loadDashboard() {
     renderHealthCard(d.total_pemasukan, d.total_pengeluaran);
     renderWeekStrip(trxList);
     renderRecentTransaksi(trxList.slice(0, 5));
+
+    // ── Widget laporan bulan ini ──
+    renderDashboardMonthWidget(d);
   } catch(err) { handleError(err); }
+}
+
+function renderDashboardMonthWidget(d) {
+  const BULAN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const labelEl = document.getElementById("dbMonthLabel");
+  if (labelEl) labelEl.textContent = `${BULAN[(d.bulan||1)-1]} ${d.tahun||""}`;
+
+  animateValue("dbMonthPemasukan",   d.bulan_pemasukan||0,   formatRupiah);
+  animateValue("dbMonthPengeluaran", d.bulan_pengeluaran||0, formatRupiah);
+  animateValue("dbMonthSaldo",       d.bulan_saldo||0,       formatRupiah);
+
+  const trxBulan = d.bulan_transaksi || [];
+  const emptyEl  = document.getElementById("dbMonthEmpty");
+  const ctx      = document.getElementById("dbMonthChart");
+
+  if (!trxBulan.length) {
+    if (emptyEl) emptyEl.style.display = "block";
+    if (ctx)     ctx.style.display     = "none";
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = "none";
+  if (ctx)     ctx.style.display     = "block";
+
+  // Bangun data per hari
+  const dayMap = {};
+  trxBulan.forEach((trx) => {
+    const day = trx.tanggal?.slice(0,10) || "?";
+    if (!dayMap[day]) dayMap[day] = { pemasukan:0, pengeluaran:0 };
+    if (trx.kategori?.tipe === "pemasukan") dayMap[day].pemasukan   += Number(trx.jumlah);
+    else                                    dayMap[day].pengeluaran += Number(trx.jumlah);
+  });
+  const labels   = Object.keys(dayMap).sort();
+  const incData  = labels.map((d) => dayMap[d].pemasukan);
+  const expData  = labels.map((d) => dayMap[d].pengeluaran);
+  const shortLbl = labels.map((d) => {
+    const dt = new Date(d);
+    return isNaN(dt) ? d : dt.toLocaleDateString("id-ID", { day:"numeric", month:"short" });
+  });
+  const tc = isDark ? "#94a3b8" : "#475569";
+  const gc = isDark ? "rgba(45,49,72,0.8)" : "rgba(226,232,240,0.6)";
+  const cd = {
+    labels: shortLbl,
+    datasets: [
+      { label:"Pemasukan",   data:incData, backgroundColor:"rgba(16,185,129,0.80)", borderWidth:0, borderRadius:5, borderSkipped:false },
+      { label:"Pengeluaran", data:expData, backgroundColor:"rgba(239,68,68,0.80)",  borderWidth:0, borderRadius:5, borderSkipped:false },
+    ],
+  };
+
+  if (state.dbMonthChart) {
+    state.dbMonthChart.data = cd;
+    state.dbMonthChart.update("active");
+    return;
+  }
+  state.dbMonthChart = new Chart(ctx, {
+    type: "bar", data: cd,
+    options: {
+      responsive: true, animation: { duration:500 },
+      plugins: {
+        legend: { position:"top", align:"end", labels:{ boxWidth:11, padding:14, font:{ family:"Inter", size:12, weight:"600" }, color:tc }},
+        tooltip: { callbacks: { label:(c) => ` ${c.dataset.label}: ${formatRupiah(c.raw)}` }},
+      },
+      scales: {
+        x: { grid:{ display:false }, ticks:{ font:{ family:"Inter", size:10 }, color:tc }},
+        y: { grid:{ color:gc }, ticks:{ font:{ family:"Inter", size:10 }, color:tc, callback:(v) => {
+          if (v>=1e6) return `${(v/1e6).toFixed(1)}jt`;
+          if (v>=1e3) return `${(v/1e3).toFixed(0)}rb`;
+          return v;
+        }}},
+      },
+    },
+  });
 }
 
 function renderDashboardChart(inc, exp) {
@@ -876,12 +954,26 @@ function populateLaporanFilter() {
   if (!sel.options.length) sel.innerHTML=BULAN_NAMES.map((b,i)=>`<option value="${i+1}">${b}</option>`).join("");
   const now=new Date(); sel.value=now.getMonth()+1; document.getElementById("laporanTahun").value=now.getFullYear();
 }
-async function loadLaporan() { populateLaporanFilter(); await fetchLaporan(); }
+async function loadLaporan() {
+  populateLaporanFilter();
+  // Pasang listener filter tabel (hanya sekali)
+  if (!document.getElementById("reportSearch").__laporanBound) {
+    document.getElementById("reportSearch").__laporanBound = true;
+    document.getElementById("reportSearch").addEventListener("input", applyReportTableFilter);
+    document.getElementById("reportFilterType").addEventListener("change", applyReportTableFilter);
+  }
+  await fetchLaporan();
+}
 document.getElementById("laporanFilterForm").addEventListener("submit", async (e)=>{ e.preventDefault(); await fetchLaporan(); });
 
 async function fetchLaporan() {
   const bulan=document.getElementById("laporanBulan").value;
   const tahun=document.getElementById("laporanTahun").value;
+  // Reset filter tabel saat fetch baru
+  const searchEl=document.getElementById("reportSearch");
+  const typeEl=document.getElementById("reportFilterType");
+  if (searchEl) searchEl.value="";
+  if (typeEl) typeEl.value="";
   try {
     const res=await apiRequest(`/laporan?bulan=${bulan}&tahun=${tahun}`);
     const d=res.data;
@@ -890,19 +982,51 @@ async function fetchLaporan() {
     animateValue("reportPengeluaran", d.total_pengeluaran, formatRupiah);
     animateValue("reportSaldo",       d.saldo,             formatRupiah);
     renderLaporanChart(state.laporanCache);
-    const tbody=document.getElementById("reportTableBody"); const empty=document.getElementById("reportEmpty");
-    if (!state.laporanCache.length) { tbody.innerHTML=""; empty.style.display="block"; return; }
-    empty.style.display="none";
-    tbody.innerHTML=state.laporanCache.map((trx)=>{
-      const isIn=trx.kategori?.tipe==="pemasukan";
-      return `<tr>
-        <td style="color:var(--text-secondary);font-size:13px;white-space:nowrap;">${formatTanggal(trx.tanggal)}</td>
-        <td>${trx.kategori?`<span style="margin-right:5px;">${trx.kategori.icon||""}</span><strong>${trx.kategori.nama_kategori}</strong>`:"-"}</td>
-        <td style="color:var(--text-muted);font-size:13px;">${trx.catatan||"-"}</td>
-        <td style="text-align:right;white-space:nowrap;"><span class="amount-pill amount-pill--${isIn?"in":"out"}">${isIn?"+":"−"} ${formatRupiah(trx.jumlah)}</span></td>
-      </tr>`;
-    }).join("");
+    applyReportTableFilter();
   } catch(err) { handleError(err); }
+}
+
+function applyReportTableFilter() {
+  const query  = (document.getElementById("reportSearch")?.value||"").toLowerCase().trim();
+  const type   = document.getElementById("reportFilterType")?.value||"";
+  const tbody  = document.getElementById("reportTableBody");
+  const empty  = document.getElementById("reportEmpty");
+  const count  = document.getElementById("reportCount");
+
+  if (!state.laporanCache.length) {
+    tbody.innerHTML=""; empty.style.display="block";
+    if (count) count.textContent="";
+    return;
+  }
+  empty.style.display="none";
+
+  const filtered = state.laporanCache.filter((trx) => {
+    const isIn = trx.kategori?.tipe==="pemasukan";
+    if (type==="pemasukan"   && !isIn)  return false;
+    if (type==="pengeluaran" &&  isIn)  return false;
+    if (query) {
+      const hay = [trx.catatan||"", trx.kategori?.nama_kategori||""].join(" ").toLowerCase();
+      if (!hay.includes(query)) return false;
+    }
+    return true;
+  });
+
+  if (count) count.textContent = `${filtered.length} transaksi`;
+
+  if (!filtered.length) {
+    tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:28px;font-size:14px;"><i class="bi bi-search" style="font-size:20px;display:block;margin-bottom:6px;"></i>Tidak ada hasil yang cocok.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML=filtered.map((trx)=>{
+    const isIn=trx.kategori?.tipe==="pemasukan";
+    return `<tr>
+      <td style="color:var(--text-secondary);font-size:13px;white-space:nowrap;">${formatTanggal(trx.tanggal)}</td>
+      <td>${trx.kategori?`<span style="margin-right:5px;">${trx.kategori.icon||""}</span><strong>${trx.kategori.nama_kategori}</strong><span class="badge-tipe badge-tipe--${isIn?"in":"out"}" style="margin-left:6px;">${isIn?"Pemasukan":"Pengeluaran"}</span>`:"-"}</td>
+      <td style="color:var(--text-muted);font-size:13px;">${trx.catatan||"-"}</td>
+      <td style="text-align:right;white-space:nowrap;"><span class="amount-pill amount-pill--${isIn?"in":"out"}">${isIn?"+":"−"} ${formatRupiah(trx.jumlah)}</span></td>
+    </tr>`;
+  }).join("");
 }
 
 function renderLaporanChart(list) {
